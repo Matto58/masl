@@ -64,6 +64,23 @@ for (let i = 0; i < fl.length; i++) {
                     process.exit(1);
                 }
                 break;
+            case "cnl":
+                if (banks[parseInt(args[0])][parseInt(args[1])] == " ") output += " ";
+                else if (args[2] == "ch")
+                    output += String.fromCharCode(banks[parseInt(args[0])][parseInt(args[1])]);
+                else if (args[2] == "nm")
+                    output += banks[parseInt(args[0])][parseInt(args[1])];
+                else if (args[2] == "hx")
+                    output += banks[parseInt(args[0])][parseInt(args[1])].toString(16).toUpperCase();
+                else if (args[2] == "bn")
+                    output += banks[parseInt(args[0])][parseInt(args[1])].toString(2);
+                else {
+                    console.log("Error: Unknown type in line " + (i + 1));
+                    process.exit(1);
+                }
+                console.log(output);
+                output = "";
+                break;
             case "add": // example: add <num1>,<num2>,<bank>,<register>
                 var num1 = 0;
                 var num2 = 0;
@@ -159,7 +176,7 @@ for (let i = 0; i < fl.length; i++) {
                     num2 = parseInt(args[1]);
                 banks[bank][reg] = num1 % num2;
             case "jmp": // example: jmp <line>,<side1>,<side2>,<cond_sign>
-                var l = parseInt(args[0]);
+                var l = args[0];
                 var side1 = parseInt(args[1]);
                 var side2 = parseInt(args[2]);
                 var cond_sign = args[3];
@@ -195,10 +212,11 @@ for (let i = 0; i < fl.length; i++) {
                         l = parseInt(l.substring(2), 2);
                     else
                         l = parseInt(l);
-                    if (l < 0 || l >= lines.length) {
+                    if (l < 0 || l >= fl.length) {
                         console.log("Error: invalid line number to jump to at line " + i);
                         process.exit(1);
                     }
+                    i = l - 1;
                 }
                 break;
             case "adr": // example: adr <bank1>,<register1>,<bank2>,<register2>,<bank3>,<register3>
@@ -247,7 +265,7 @@ for (let i = 0; i < fl.length; i++) {
                 banks[bank1][reg1] = banks[bank2][reg2] % banks[bank3][reg3];
                 break;
             case "jmr": // example: jmr <line>,<bank1>,<register1>,<bank2>,<register2>,<cond_sign>
-                var l = parseInt(args[0]);
+                var l = args[0];
                 var bank1 = parseInt(args[1]);
                 var reg1 = parseInt(args[2]);
                 var bank2 = parseInt(args[3]);
@@ -285,10 +303,11 @@ for (let i = 0; i < fl.length; i++) {
                         l = parseInt(l.substring(2), 2);
                     else
                         l = parseInt(l);
-                    if (l < 0 || l >= lines.length) {
+                    if (l < 0 || l >= fl.length) {
                         console.log("Error: invalid line number to jump to at line " + i);
                         process.exit(1);
                     }
+                    i = l - 1;
                 }
                 break;
         }
