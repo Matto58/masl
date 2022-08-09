@@ -1,0 +1,15 @@
+# Fibonacci sequence in MASL v1.0.0
+# Gets the nth number in the fibonacci sequence
+# n = bank 0, register 0
+psh 0,0,100
+psh 3,3,0
+psh 3,2,1
+psh 1,0,0
+psh 1,1,1
+psh 1,2,0
+adr 1,2,1,0,1,1
+adr 1,0,1,1,3,3
+adr 1,1,1,2,3,3
+sbr 0,0,0,0,3,2
+jmr 10,0,0,3,3,>
+cnt 1,0,nm

@@ -1,7 +1,7 @@
 const fs = require("fs");
-const fl = fs.readFileSync(process.argv[2], "utf-8").split("\n");
-const args = process.argv.slice(3);
+const fl = fs.readFileSync(process.argv[2], "utf-8").replace("\r","").split("\n");
 
+const args = process.argv.slice(3);
 const nothing = ()=>{};
 
 let banks = [
@@ -13,6 +13,7 @@ let banks = [
 
 let viewLines = false;
 let showMem = false;
+let showCurrent = false;
 
 for (let i = 0; i < args.length; i++) {
     switch (args[i]) {
@@ -28,18 +29,23 @@ for (let i = 0; i < args.length; i++) {
         case "-sm":
             showMem = true;
             break;
-
+        case "--show-current":
+            showCurrent = true;
+            break;
+        case "-sc":
+            showCurrent = true;
+            break;
     }
 }
 
 let output = "";
 for (let i = 0; i < fl.length; i++) {
-    const line = fl[i].split(" ");
-    if (line != "") {
+    const ll = fl[i].split(" ");
+    if (ll != null && ll.length > 0 && ll[0].replace(" ", "") != "" && ll[0] != "#") {
         // console.log(line);
-        const cmd = line[0];
-        const args = line[1].split(",");
-
+        const cmd = ll[0];
+        const args = ll[1].split(",");
+        showCurrent ? console.log((i+1) + ": " + fl[i]) : nothing();
         switch (cmd.toLowerCase()) {
             case "psh":
                 if (args[2].charAt(1).toLowerCase() == "x") // hex
@@ -216,7 +222,7 @@ for (let i = 0; i < fl.length; i++) {
                         console.log("Error: invalid line number to jump to at line " + i);
                         process.exit(1);
                     }
-                    i = l - 1;
+                    i = l - 2;
                 }
                 break;
             case "adr": // example: adr <bank1>,<register1>,<bank2>,<register2>,<bank3>,<register3>
@@ -307,7 +313,7 @@ for (let i = 0; i < fl.length; i++) {
                         console.log("Error: invalid line number to jump to at line " + i);
                         process.exit(1);
                     }
-                    i = l - 1;
+                    i = l - 2;
                 }
                 break;
         }
