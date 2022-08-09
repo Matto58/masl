@@ -7,10 +7,12 @@ Matto's Assembly-Styled Language is a programming language that looks like assem
 ## How to run
 You'll need NodeJS.
 After getting the latest version of NodeJS, go to the folder where `masl.js` is stored in the terminal of your choice.
-Then run `node masl <filename> [flags]` and replace `<filename>` with the file name of your code.
+Then run `node masl <filename> [args]` and replace `<filename>` with the file name of your code.
 
-If you'd like, you can add these flags:
+If you'd like, you can add these arguments:
 - `-vl` / `--view-lines`
   - Shows all lines of code.
 - `-sm` / `--show-mem`
   - Shows contents of all banks and registers.
+- `-sc` / `--show-current`
+  - Shows current line.
