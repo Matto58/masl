@@ -14,5 +14,5 @@ If you'd like, you can add these arguments:
   - Shows all lines of code.
 - `-sm` / `--show-mem`
   - Shows contents of all banks and registers.
-- `-sc` / `--show-current`
+- `-sc` / `--show-current` (Added in v1.0.0-beta3)
   - Shows current line.
