@@ -1,0 +1,21 @@
+# Fibonacci sequence v2 in MASL v1.0.0
+# Iterates through the Fibonacci sequence and prints the first n numbers
+# where n is located in bank 0, register 1.
+
+psh 0,0,0
+psh 0,1,100
+psh 1,0,0
+psh 1,1,1
+psh 1,2,0
+psh 3,3,0
+psh 3,2,1
+psh 3,0,9
+
+adr 1,2,1,0,1,1
+adr 1,0,3,3,1,1
+adr 1,1,3,3,1,2
+adr 0,0,0,0,3,2
+cnt 0,0,nm
+cnt 3,0,ch
+cnl 1,2,nm
+jmr 12,0,0,0,1,<
