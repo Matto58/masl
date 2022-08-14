@@ -1,0 +1,4 @@
+# Random number generator in MASL v1.0.0
+# Generates a random number between 1 and 100.
+rng 1,100,0,0
+cnt 0,0,nm

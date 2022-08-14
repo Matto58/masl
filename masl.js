@@ -1,5 +1,9 @@
 const fs = require("fs");
-const fl = fs.readFileSync(process.argv[2], "utf-8").replace("\r","").split("\n");
+const fl = fs.readFileSync(process.argv[2], "utf-8").split("\n");
+
+const metadata = {
+    "version": "1.0.0-beta4"
+}
 
 const args = process.argv.slice(3);
 const nothing = ()=>{};
@@ -14,6 +18,7 @@ let banks = [
 let viewLines = false;
 let showMem = false;
 let showCurrent = false;
+let removeIntro = false;
 
 for (let i = 0; i < args.length; i++) {
     switch (args[i]) {
@@ -35,7 +40,18 @@ for (let i = 0; i < args.length; i++) {
         case "-sc":
             showCurrent = true;
             break;
+        case "--remove-intro":
+            removeIntro = true;
+            break;
+        case "-ri":
+            removeIntro = true;
+            break;
     }
+}
+
+if (!removeIntro) {
+    console.log("MASL v" + metadata.version);
+    console.log("Running file " + process.argv[2] + "\n");
 }
 
 let output = "";
@@ -314,6 +330,45 @@ for (let i = 0; i < fl.length; i++) {
                         process.exit(1);
                     }
                     i = l - 2;
+                }
+                break;
+            case "rng": // example: rng <min>,<max>,<bank>,<register>
+                var min = parseInt(args[0]);
+                var max = parseInt(args[1]);
+                var bank = parseInt(args[2]);
+                var reg = parseInt(args[3]);
+                banks[bank][reg] = Math.floor(Math.random() * (max - min + 1)) + min;
+                break;
+            case "flr": // example: flr <filename>
+                var filename = args[0];
+                var f = fs.readFileSync(filename, "utf8");
+                output += f;
+                break;
+            case "frl": // example: frl <filename>
+                var filename = args[0];
+                var f = fs.readFileSync(filename, "utf8");
+                console.log(output + f);
+                output = "";
+                break;
+            case "flw": // example: flw <filename>,<bank>,<register>,<type>
+                var filename = args[0];
+                var bank = parseInt(args[1]);
+                var reg = parseInt(args[2]);
+                var type = args[3];
+                if (type == "hx") { // hex
+                    var n = parseInt(banks[bank][reg], 16);
+                    fs.writeFileSync(filename, n.toString(16), "utf8");
+                } else if (type == "bn") { // binary
+                    var n = parseInt(banks[bank][reg], 2);
+                    fs.writeFileSync(filename, n.toString(2), "utf8");
+                } else if (type == "ch") { // char
+                    var n = String.fromCharCode(banks[bank][reg]);
+                    fs.writeFileSync(filename, n, "utf8");
+                } else if (type == "nm") { // number
+                    fs.writeFileSync(filename, banks[bank][reg].toString(), "utf8");
+                } else {
+                    console.log("Error: invalid file type at line " + i);
+                    process.exit(1);
                 }
                 break;
         }

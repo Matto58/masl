@@ -1,0 +1,4 @@
+# Random number to file in MASL v1.0.0
+# Writes a random number between 1 and 100 to a file called random.txt.
+rng 1,100,0,0
+flw random.txt,0,0,nm
