@@ -16,3 +16,5 @@ If you'd like, you can add these arguments:
   - Shows contents of all banks and registers.
 - `-sc` / `--show-current` (Added in v1.0.0-beta3)
   - Shows current line.
+- `-ri` / `--remove-intro` (Added in v1.0.0-beta4)
+  - Removes intro on start.
