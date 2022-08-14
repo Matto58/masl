@@ -1,23 +1,27 @@
 # 99 bottles of beer in MASL v1.0.0
-psh 0,0,99      # Amount of bottles
-psh 0,1,1       # This is literally the number 1
-psh 0,3,0x0d    # A newline
+psh 0,0,99        # Amount of bottles
+psh 0,1,1         # This is literally the number 1
+psh 0,3,0x0d      # A newline
 
-cnt 0,0,nm      # Amount of bottles
-frl beer\beer2  # bottles of beer,
-cnt 0,0,nm      # Amount of bottles
-frl beer\beer1  # bottles of beer on the wall.
-frl beer\beer3  # Take one down, pass it around,
-sbr 0,0,0,0,0,1 # Subtract one from the amount of bottles.
-cnt 0,0,nm      # Amount of bottles
-frl beer\beer1  # bottles of beer on the wall.
-cnl 0,3,ch      # Newline
-jmr 6,0,0,0,1,> # Is the amount of bottles greater than 1? Jump to line 6 if yes.
-cnt 0,0,nm      # Amount of bottles
-frl beer\beer4  # bottle of beer on the wall.
-cnt 0,0,nm      # Amount of bottles
-frl beer\beer5  # bottle of beer.
-frl beer\beer3  # Take one down, pass it around,
-frl beer\beer7  # no more bottles of beer on the wall.
-cnl 0,3,ch      # Newline
-frl beer\beer6  # No more bottles of beer on the wall, no more bottles of beer. etc..
+cnt 0,0,nm        # Amount of bottles
+frl beer\beer2    # bottles of beer,
+cnt 0,0,nm        # Amount of bottles
+frl beer\beer1    # bottles of beer on the wall.
+frl beer\beer3    # Take one down, pass it around,
+sbr 0,0,0,0,0,1   # Subtract one from the amount of bottles.
+cnt 0,0,nm        # Amount of bottles
+jmr 26,0,0,0,1,== # Is the amount of bottles equal to 1? Jump to line 26 if yes.
+frl beer\beer1    # bottles of beer on the wall.
+cnl 0,3,ch        # Newline
+jmr 6,0,0,0,1,>   # Is the amount of bottles greater than 1? Jump to line 6 if yes.
+cnt 0,0,nm        # Amount of bottles
+frl beer\beer4    # bottle of beer on the wall.
+cnt 0,0,nm        # Amount of bottles
+frl beer\beer5    # bottle of beer.
+frl beer\beer3    # Take one down, pass it around,
+frl beer\beer7    # no more bottles of beer on the wall.
+cnl 0,3,ch        # Newline
+frl beer\beer6    # No more bottles of beer on the wall, no more bottles of beer. etc..
+jmp 28,2,2,==     # Jump to line 28 if 2 is equal to 2. (Always true)
+frl beer\beer9    # 1 bottle of beer.
+jmp 15,2,2,==     # Jump to line 15 if 2 is equal to 2. (Always true)
