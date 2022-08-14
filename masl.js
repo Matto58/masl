@@ -2,7 +2,7 @@ const fs = require("fs");
 const fl = fs.readFileSync(process.argv[2], "utf-8").split("\n");
 
 const metadata = {
-    "version": "1.0.0-beta4"
+    "version": "1.0.0-beta4.1"
 }
 
 const args = process.argv.slice(3);
@@ -234,8 +234,8 @@ for (let i = 0; i < fl.length; i++) {
                         l = parseInt(l.substring(2), 2);
                     else
                         l = parseInt(l);
-                    if (l < 0 || l >= fl.length) {
-                        console.log("Error: invalid line number to jump to at line " + i);
+                    if (l < 0 || l > fl.length) {
+                        console.log("Error: invalid line number to jump to at line " + (i+1));
                         process.exit(1);
                     }
                     i = l - 2;
@@ -325,8 +325,8 @@ for (let i = 0; i < fl.length; i++) {
                         l = parseInt(l.substring(2), 2);
                     else
                         l = parseInt(l);
-                    if (l < 0 || l >= fl.length) {
-                        console.log("Error: invalid line number to jump to at line " + i);
+                    if (l < 0 || l > fl.length) {
+                        console.log("Error: invalid line number to jump to at line " + (i+1));
                         process.exit(1);
                     }
                     i = l - 2;
