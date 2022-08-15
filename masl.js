@@ -1,25 +1,20 @@
 const fs = require("fs");
-const fl = fs.readFileSync(process.argv[2], "utf-8").split("\n");
+const fln = process.argv[2];
 
 const metadata = {
-    "version": "1.0.0-beta4.1"
+    "version": "1.0.0-beta5",
+    "author": "Matto58"
 }
-
-const args = process.argv.slice(3);
-const nothing = ()=>{};
-
-let banks = [
-    "    ".split(""),
-    "    ".split(""),
-    "    ".split(""),
-    "    ".split("")
-];
 
 let viewLines = false;
 let showMem = false;
 let showCurrent = false;
 let removeIntro = false;
+let monochrome = false;
 
+const colors = JSON.parse(fs.readFileSync("./color.json"));
+
+const args = process.argv.slice(3);
 for (let i = 0; i < args.length; i++) {
     switch (args[i]) {
         case "--view-lines":
@@ -46,13 +41,36 @@ for (let i = 0; i < args.length; i++) {
         case "-ri":
             removeIntro = true;
             break;
+        case "--monochrome":
+            monochrome = true;
+            break;
+        case "-mc":
+            monochrome = true;
+            break;
     }
 }
 
 if (!removeIntro) {
-    console.log("MASL v" + metadata.version);
-    console.log("Running file " + process.argv[2] + "\n");
+    // show in blue text
+    console.log((!monochrome ? "\x1b[34m" : "") + "MASL v" + metadata.version + (!monochrome ? "\x1b[90m" : "") + " by " + metadata.author);
+    if (fln == "-h" || fln == "--help") {
+        console.log((!monochrome ? "\x1b[33m" : "") + "Usage" + (!monochrome ? "\x1b[0m" : "") + ": masl.js <filename> [args]");
+        process.exit(0);
+    }
+    console.log((!monochrome ? "\x1b[32m" : "") + "Running file " + (!monochrome ? "\x1b[92m\"" : "\"") + process.argv[2] + (!monochrome ? "\"\x1b[0m" : "\""));
 }
+
+const fl = fs.readFileSync(fln, "utf-8").split("\n");
+const nothing = ()=>{};
+
+let banks = [
+    "    ".split(""),
+    "    ".split(""),
+    "    ".split(""),
+    "    ".split("")
+];
+
+
 
 let output = "";
 for (let i = 0; i < fl.length; i++) {
@@ -61,7 +79,9 @@ for (let i = 0; i < fl.length; i++) {
         // console.log(line);
         const cmd = ll[0];
         const args = ll[1].split(",");
-        showCurrent ? console.log((i+1) + ": " + fl[i]) : nothing();
+        showCurrent
+            ? console.log((monochrome ? "\x1b[90m" : "") + (i+1) + ": " + fl[i] + "\x1b[0m") 
+            : nothing();
         switch (cmd.toLowerCase()) {
             case "psh":
                 if (args[2].charAt(1).toLowerCase() == "x") // hex
@@ -72,6 +92,20 @@ for (let i = 0; i < fl.length; i++) {
                     banks[parseInt(args[0])][parseInt(args[1])] = parseInt(args[2]);
                 break;
             case "cnt":
+                var fg = args[3];
+                var bg = args[4];
+                var s = args[5];
+                if (!monochrome) {
+                    if (fg != undefined && fg != "" && colors["fg"][fg] != undefined) {
+                        output += "\x1b[" + colors["fg"][fg] + "m";
+                    }
+                    if (bg != undefined && bg != "" && colors["bg"][bg] != undefined) {
+                        output += "\x1b[" + colors["bg"][bg] + "m";
+                    }
+                    if (s != undefined && s != "" && colors["styles"][s] != undefined) {
+                        output += "\x1b[" + colors["styles"][s] + "m";
+                    }
+                }
                 if (banks[parseInt(args[0])][parseInt(args[1])] == " ") output += " ";
                 else if (args[2] == "ch")
                     output += String.fromCharCode(banks[parseInt(args[0])][parseInt(args[1])]);
@@ -82,11 +116,25 @@ for (let i = 0; i < fl.length; i++) {
                 else if (args[2] == "bn")
                     output += banks[parseInt(args[0])][parseInt(args[1])].toString(2);
                 else {
-                    console.log("Error: Unknown type in line " + (i + 1));
+                    console.log((!monochrome ? "\x1b[31m" : "") + "Error: Unknown type in line " + (i + 1) + "\x1b[0m");
                     process.exit(1);
                 }
                 break;
             case "cnl":
+                var fg = args[3];
+                var bg = args[4];
+                var s = args[5];
+                if (!monochrome) {
+                    if (fg != undefined && fg != "" && colors["fg"][fg] != undefined) {
+                        output += "\x1b[" + colors["fg"][fg] + "m";
+                    }
+                    if (bg != undefined && bg != "" && colors["bg"][bg] != undefined) {
+                        output += "\x1b[" + colors["bg"][bg] + "m";
+                    }
+                    if (s != undefined && s != "" && colors["styles"][s] != undefined) {
+                        output += "\x1b[" + colors["styles"][s] + "m";
+                    }
+                }
                 if (banks[parseInt(args[0])][parseInt(args[1])] == " ") output += " ";
                 else if (args[2] == "ch")
                     output += String.fromCharCode(banks[parseInt(args[0])][parseInt(args[1])]);
@@ -97,7 +145,7 @@ for (let i = 0; i < fl.length; i++) {
                 else if (args[2] == "bn")
                     output += banks[parseInt(args[0])][parseInt(args[1])].toString(2);
                 else {
-                    console.log("Error: Unknown type in line " + (i + 1));
+                    console.log((!monochrome ? "\x1b[31m" : "") + "Error: Unknown type in line " + (i + 1) + "\x1b[0m");
                     process.exit(1);
                 }
                 console.log(output);
@@ -223,7 +271,7 @@ for (let i = 0; i < fl.length; i++) {
                         cond = banks[0][side1] <= banks[0][side2];
                         break;
                     default:
-                        console.log("Error: invalid condition sign at line " + i);
+                        console.log((!monochrome ? "\x1b[31m" : "") + "Error: invalid condition sign at line " + (i + 1) + "\x1b[0m");
                         process.exit(1);
                 }
                 if (cond) {
@@ -235,7 +283,7 @@ for (let i = 0; i < fl.length; i++) {
                     else
                         l = parseInt(l);
                     if (l < 0 || l > fl.length) {
-                        console.log("Error: invalid line number to jump to at line " + (i+1));
+                        console.log((!monochrome ? "\x1b[31m" : "") + "Error: invalid line number to jump to at line " + (i+1) + "\x1b[0m");
                         process.exit(1);
                     }
                     i = l - 2;
@@ -314,7 +362,7 @@ for (let i = 0; i < fl.length; i++) {
                         cond = banks[bank1][reg1] <= banks[bank2][reg2];
                         break;
                     default:
-                        console.log("Error: invalid condition sign at line " + i);
+                        console.log((!monochrome ? "\x1b[31m" : "") + "Error: invalid condition sign at line " + (i+1) + "\x1b[0m");
                         process.exit(1);
                 }
                 if (cond) {
@@ -326,7 +374,7 @@ for (let i = 0; i < fl.length; i++) {
                     else
                         l = parseInt(l);
                     if (l < 0 || l > fl.length) {
-                        console.log("Error: invalid line number to jump to at line " + (i+1));
+                        console.log((!monochrome ? "\x1b[31m" : "") + "Error: invalid line number to jump to at line " + (i+1) + "\x1b[0m");
                         process.exit(1);
                     }
                     i = l - 2;
@@ -367,7 +415,7 @@ for (let i = 0; i < fl.length; i++) {
                 } else if (type == "nm") { // number
                     fs.writeFileSync(filename, banks[bank][reg].toString(), "utf8");
                 } else {
-                    console.log("Error: invalid file type at line " + i);
+                    console.log((!monochrome ? "\x1b[31m" : "") + "Error: invalid file type at line " + (i+1) + "\x1b[0m");
                     process.exit(1);
                 }
                 break;
@@ -375,6 +423,6 @@ for (let i = 0; i < fl.length; i++) {
     }
 }
 
-output != "" ? console.log(output) : nothing();
+output != "" ? console.log(output + "\x1b[0m") : nothing();
 showMem ? console.log(banks) : nothing();
 viewLines ? console.log(fl) : nothing();

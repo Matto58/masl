@@ -1,0 +1,30 @@
+psh 0,0,0x48
+psh 0,1,0x65
+psh 0,2,0x6c
+psh 0,3,0x6f
+
+psh 1,0,0x57
+psh 1,1,0x72
+psh 1,2,0x64
+
+psh 2,0,0x2c
+psh 2,1,0x21
+
+cnt 3,3,ch,lgreen,lblue,underline
+cnt 0,0,ch,lgreen,lblue,bold
+cnt 0,1,ch
+cnt 0,2,ch
+cnt 0,2,ch
+cnt 0,3,ch
+
+cnt 2,0,ch
+cnt 3,3,ch
+
+cnt 1,0,ch
+cnt 0,3,ch
+cnt 1,1,ch
+cnt 0,2,ch
+cnt 1,2,ch
+
+cnt 2,1,ch
+cnt 3,3,ch
