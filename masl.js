@@ -47,18 +47,23 @@ for (let i = 0; i < args.length; i++) {
         case "-mc":
             monochrome = true;
             break;
+        case "--help":
+            console.log((!monochrome ? "\x1b[33m" : "") + "Usage" + (!monochrome ? "\x1b[0m" : "") + ": masl.js <filename> [args]");
+            process.exit(0);
+        case "-h":
+            console.log((!monochrome ? "\x1b[33m" : "") + "Usage" + (!monochrome ? "\x1b[0m" : "") + ": masl.js <filename> [args]");
+            process.exit(0);
     }
 }
 
-if (!removeIntro) {
-    // show in blue text
-    console.log((!monochrome ? "\x1b[34m" : "") + "MASL v" + metadata.version + (!monochrome ? "\x1b[90m" : "") + " by " + metadata.author);
-    if (fln == "-h" || fln == "--help") {
-        console.log((!monochrome ? "\x1b[33m" : "") + "Usage" + (!monochrome ? "\x1b[0m" : "") + ": masl.js <filename> [args]");
-        process.exit(0);
-    }
-    console.log((!monochrome ? "\x1b[32m" : "") + "Running file " + (!monochrome ? "\x1b[92m\"" : "\"") + process.argv[2] + (!monochrome ? "\"\x1b[0m" : "\""));
+if (!removeIntro) console.log((!monochrome ? "\x1b[34m" : "") + "MASL v" + metadata.version + (!monochrome ? "\x1b[90m" : "") + " by " + metadata.author);
+
+if (fln == "-h" || fln == "--help") {
+    console.log((!monochrome ? "\x1b[33m" : "") + "Usage" + (!monochrome ? "\x1b[0m" : "") + ": masl.js <filename> [args]");
+    process.exit(0);
 }
+
+if (!removeIntro) console.log((!monochrome ? "\x1b[32m" : "") + "Running file " + (!monochrome ? "\x1b[92m\"" : "\"") + process.argv[2] + (!monochrome ? "\"\x1b[0m" : "\""));
 
 const fl = fs.readFileSync(fln, "utf-8").split("\n");
 const nothing = ()=>{};
