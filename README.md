@@ -18,3 +18,5 @@ If you'd like, you can add these arguments:
   - Shows current line.
 - `-ri` / `--remove-intro` (Added in v1.0.0-beta4)
   - Removes intro on start.
+- `-mc` / `--monochrome`
+  - Removes all color.
