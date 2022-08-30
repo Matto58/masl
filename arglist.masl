@@ -1,0 +1,10 @@
+# Argument list in MASL v1.0.0
+# Lists all arguments passed with -a or --pass-arg.
+psh 0,0,1
+psh 0,1,0
+gbl 4,0,2 # Get bank length of bank 4 (the argument bank) and push to (0,2).
+
+cnl 4,>0:1,nm
+
+adr 0,1,0,1,0,0 # (0,1) = (0,1) + (0,0)
+jmr 7,0,1,0,2,<
