@@ -19,4 +19,10 @@ If you'd like, you can add these arguments:
 - `-ri` / `--remove-intro` (Added in v1.0.0-beta4)
   - Removes intro on start.
 - `-mc` / `--monochrome` (Added in v1.0.0-beta5)
-  - Removes all color.
+  - Removes all colors and styles.
+- `-sw` / `--show-warns` (Added in v1.0.0-beta6)
+  - Shows warnings in console.
+- `-sa` / `--show-args` (Added in v1.0.0-beta6)
+  - Shows passed arguments.
+- `-a` / `--pass-arg` (Added in v1.0.0-beta6)
+  - Passes arguments like this: `-a:1:2:3` or `--pass-arg:1:2:3`
