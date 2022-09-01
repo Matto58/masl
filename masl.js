@@ -15,7 +15,7 @@ let ranBang = false;
 
 
 const metadata = {
-    "version": "1.0.0-beta6",
+    "version": "1.0.0-beta6.1",
     "author": "Matto58"
 }
 
@@ -375,22 +375,22 @@ for (let i = 0; i < fl.length; i++) {
                 var cond = false;
                 switch (cond_sign) {
                     case "==":
-                        cond = banks[0][side1] == banks[0][side2];
+                        cond = side1 == side2;
                         break;
                     case "!=":
-                        cond = banks[0][side1] != banks[0][side2];
+                        cond = side1 != side2;
                         break;
                     case ">":
-                        cond = banks[0][side1] > banks[0][side2];
+                        cond = side1 > side2;
                         break;
                     case "<":
-                        cond = banks[0][side1] < banks[0][side2];
+                        cond = side1 < side2;
                         break;
                     case ">=":
-                        cond = banks[0][side1] >= banks[0][side2];
+                        cond = side1 >= side2;
                         break;
                     case "<=":
-                        cond = banks[0][side1] <= banks[0][side2];
+                        cond = side1 <= side2;
                         break;
                     default:
                         console.log((!monochrome ? "\x1b[31m" : "") + "Error: invalid condition sign at line " + (i + 1) + "\x1b[0m");
